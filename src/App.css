@@ -16,3 +16,6 @@ hr{
   border-bottom: 3px solid #2f303a8f;
   width: 100%;
 }
+.border{
+  border-radius: 0px;
+}
