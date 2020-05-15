@@ -15,24 +15,17 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1),
     width: "25ch",
     [`& fieldset`]: {
-      borderRadius: 0,
+      borderRadius: 0
     }
-  },
-  selectInput: {
-    width: "200px"
-  },
-  
+  }
 }));
 
-const FederalLoans = ({setFedForm}) => {
+const FederalLoans = ({ setFedForm }) => {
   const classes = useStyles();
   //llamo al context
   const formContext = useContext(FormContext);
   //destructuring context
-  const {
-    totalFederalLoans,
-    setTotalFedLoans,
-  } = formContext;
+  const { totalFederalLoans, setTotalFedLoans } = formContext;
   //state del form local
   const [fedLoans, setFedLoans] = useState({
     subsidizedFedLoan: "",
@@ -40,14 +33,14 @@ const FederalLoans = ({setFedForm}) => {
   });
   //destructuring
   const { subsidizedFedLoan, unsubsidizedFedLoan } = fedLoans;
-//manejo los cambios en los inputs
+  //manejo los cambios en los inputs
   const handleChange = event => {
     setFedLoans({
       ...fedLoans,
       [event.target.name]: event.target.value
     });
   };
-//sumo el total de los inputs
+  //sumo el total de los inputs
   useEffect(() => {
     const sumFedLoans =
       parseInt(subsidizedFedLoan) + parseInt(unsubsidizedFedLoan);
@@ -103,12 +96,10 @@ const FederalLoans = ({setFedForm}) => {
           />
         </div>
       </Grid>
-      <div className="title">
-        <h2>
-          Total Federal Loans:
-          {/* condicional para mostrar el resultado de la suma de los inputs */}
-          {totalFederalLoans === 0 ? "   $00,000" : `$${totalFederalLoans}`}
-        </h2>
+      <div className="title flex">
+        <h2 className="subtitle">Total Federal Loans:  </h2>
+        {/* condicional para mostrar el resultado de la suma de los inputs */}
+       <h2>{totalFederalLoans === 0 ? "$00,000" : `$${totalFederalLoans}`}</h2> 
       </div>
     </Grid>
   );

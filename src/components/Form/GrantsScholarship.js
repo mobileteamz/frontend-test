@@ -22,8 +22,7 @@ const useStyles = makeStyles(theme => ({
     [`& fieldset`]: {
       borderRadius: 0
     }
-  },
-  
+  }
 }));
 
 const GrantScholarship = ({ setGrantsScholarship }) => {
@@ -55,13 +54,7 @@ const GrantScholarship = ({ setGrantsScholarship }) => {
   } = grantAndScholarLoan;
 
   const { onNeed, notOnNeeds, privateRenew } = isRenewable;
-  //manejo los cambios de los checkbox para multiplicar
-  const handleRenewable = event => {
-    setIsRenewable({
-      ...isRenewable,
-      [event.target.id]: event.target.checked
-    });
-  };
+
   //seteo el state del form
   const handleChange = event => {
     setGrantAndScholarLoan({
@@ -90,53 +83,61 @@ const GrantScholarship = ({ setGrantsScholarship }) => {
     setGrant();
     displayGrantAndScholarLoan();
   }, [grantAndScholarLoan]);
-//tres funciones que multiplican ciertos inputs al seleccionar checkbox
-//1
-  useEffect(() => {
-    const multiplyNotOnNeed = () => {
-      notOnNeeds
-        ? setGrantAndScholarLoan({
-            ...grantAndScholarLoan,
-            institutionNotOnNeed: institutionNotOnNeed * 4
-          })
-        : setGrantAndScholarLoan({
-            ...grantAndScholarLoan,
-            institutionNotOnNeed: institutionNotOnNeed / 4
-          });
-    };
+  //tres funciones que multiplican respectivos inputs al seleccionar checkbox
+  //1
 
-    multiplyNotOnNeed();
-  }, [notOnNeeds]);
-//2
-  useEffect(() => {
-    const multiplyOnNeed = () => {
-      onNeed
-        ? setGrantAndScholarLoan({
-            ...grantAndScholarLoan,
-            institutionOnNeed: institutionOnNeed * 4
-          })
-        : setGrantAndScholarLoan({
-            ...grantAndScholarLoan,
-            institutionOnNeed: institutionOnNeed / 4
-          });
-    };
-    multiplyOnNeed();
-  }, [onNeed]);
-//3
-  useEffect(() => {
-    const multiplyPrivate = () => {
-      privateRenew
-        ? setGrantAndScholarLoan({
-            ...grantAndScholarLoan,
-            privateLoan: privateLoan * 4
-          })
-        : setGrantAndScholarLoan({
-            ...grantAndScholarLoan,
-            privateLoan: privateLoan / 4
-          });
-    };
-    multiplyPrivate();
-  }, [privateRenew]);
+  const multiplyNotOnNeed = event => {
+    !notOnNeeds
+      ? setGrantAndScholarLoan({
+          ...grantAndScholarLoan,
+          institutionNotOnNeed: institutionNotOnNeed * 4
+        })
+      : setGrantAndScholarLoan({
+          ...grantAndScholarLoan,
+          institutionNotOnNeed: institutionNotOnNeed / 4
+        });
+        //seteo el state de los checkbox
+    setIsRenewable({
+      ...isRenewable,
+      [event.target.id]: event.target.checked
+    });
+  };
+ 
+  //2
+
+  const multiplyOnNeed = event => {
+    !onNeed
+      ? setGrantAndScholarLoan({
+          ...grantAndScholarLoan,
+          institutionOnNeed: institutionOnNeed * 4
+        })
+      : setGrantAndScholarLoan({
+          ...grantAndScholarLoan,
+          institutionOnNeed: institutionOnNeed / 4
+        });
+    setIsRenewable({
+      ...isRenewable,
+      [event.target.id]: event.target.checked
+    });
+  };
+
+  //3
+
+  const multiplyPrivate = event => {
+    !privateRenew
+      ? setGrantAndScholarLoan({
+          ...grantAndScholarLoan,
+          privateLoan: privateLoan * 4
+        })
+      : setGrantAndScholarLoan({
+          ...grantAndScholarLoan,
+          privateLoan: privateLoan / 4
+        });
+    setIsRenewable({
+      ...isRenewable,
+      [event.target.id]: event.target.checked
+    });
+  };
 
   return (
     <div className={classes.root}>
@@ -146,7 +147,7 @@ const GrantScholarship = ({ setGrantsScholarship }) => {
             <h3 style={{ width: "100%" }}>Institution</h3>
             <p>
               Total grants and scholarships based
-              <br /> on financial need
+              <br /> on financial needs
             </p>
           </div>
           <div>
@@ -168,8 +169,7 @@ const GrantScholarship = ({ setGrantsScholarship }) => {
               display="block"
               color="default"
               inputProps={{ "aria-label": "checkbox with default color" }}
-              // onChange={event => renewable(event)}
-              onChange={handleRenewable}
+              onChange={multiplyOnNeed}
             />
             <span>Yes, it´s reneweable.</span>
           </div>
@@ -203,7 +203,7 @@ const GrantScholarship = ({ setGrantsScholarship }) => {
               display="block"
               color="default"
               inputProps={{ "aria-label": "checkbox with default color" }}
-              onChange={handleRenewable}
+              onChange={multiplyNotOnNeed}
             />
             <span>Yes, it´s reneweable.</span>
           </div>
@@ -240,7 +240,7 @@ const GrantScholarship = ({ setGrantsScholarship }) => {
             <TextField
               type="number"
               className={classes.textField}
-              id="private"
+              id="privateRenew"
               label="$"
               variant="outlined"
               display="inline"
@@ -256,13 +256,13 @@ const GrantScholarship = ({ setGrantsScholarship }) => {
               display="block"
               color="default"
               inputProps={{ "aria-label": "checkbox with default color" }}
-              onChange={handleRenewable}
+              onChange={multiplyPrivate}
             />
             <span>Yes, this will reduce my aid.</span>
           </div>
         </Grid>
-        <div className="title">
-          <h2 className="subtitle">Total Grants & Scholarships:</h2>
+        <div className="title flex">
+          <h2 className="subtitle">Total Grants & Scholarships:  </h2>
           <span>
             <h2>
               {totalGrantsScholarships === 0

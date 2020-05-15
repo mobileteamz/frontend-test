@@ -1,3 +1,5 @@
+//importo un modal de materila ui
+
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Modal, Backdrop, Container } from "@material-ui/core";
@@ -41,7 +43,7 @@ export default function TransitionsModal() {
   return (
     <div className="container">
       <button type="button" onClick={handleOpen}>
-        react-transition-group
+        The greatest form ever!
       </button>
       <Modal
         aria-labelledby="transition-modal-title"

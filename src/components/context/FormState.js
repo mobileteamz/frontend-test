@@ -5,7 +5,8 @@ import {
   FORM_VALIDATION,
   TOTAL_COST,
   TOTAL_GRANTS_SCHOLARSHIPS,
-  TOTAL_FED_LOANS
+  TOTAL_FED_LOANS,
+  SEND_FORM
 } from "../../types";
 
 // Store que contiene context, state y reducer
@@ -61,6 +62,11 @@ const FormState = props => {
       type: TOTAL_COST
     });
   };
+  const sendForm = () => {
+    dispatch({
+      type: SEND_FORM
+    })
+  }
 
   return (
     //declaro el provider que comparte los state y funciones, este va en App.js
@@ -74,7 +80,8 @@ const FormState = props => {
         setTotalFedLoans,
         setTotalGrantsScholarships,
         handleError,
-        setTotalCost
+        setTotalCost,
+        sendForm
       }}
     >
       {props.children}

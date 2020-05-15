@@ -1,14 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
-import FormContext from "../../components/context/FormContext";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Grid } from "@material-ui/core/";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+//estilo de los componenetes de material ui
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: "flex",
-    flexWrap: "wrap",
-    flexGrow: 1
-  },
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
@@ -22,14 +16,13 @@ const useStyles = makeStyles(theme => ({
     [`& fieldset`]: {
       borderRadius: 0
     }
-  },
-
+  }
 }));
 
 const School = ({ setSchoolForm }) => {
+  //llamo a los estilos
   const classes = useStyles();
-  const formContext = useContext(FormContext);
-  const { schools } = formContext;
+  //declaro el state
   const [school, setSchool] = useState({
     selectedSchool: "",
     admission: "",
@@ -37,13 +30,14 @@ const School = ({ setSchoolForm }) => {
   });
   //destruturing
   const { selectedSchool, admission, attendance } = school;
+  //manejo los cambios en los inputs
   const handleChange = event => {
     setSchool({
       ...school,
       [event.target.name]: event.target.value
     });
   };
-
+  //ante cambios mando al from padre los valores
   useEffect(() => {
     const sendSchoolToForm = () => {
       setSchoolForm(school);
@@ -62,7 +56,33 @@ const School = ({ setSchoolForm }) => {
             select
             name="selectedSchool"
             label="Select"
-            // value={admission}
+            variant="outlined"
+            size="small"
+            className={classes.selectInput}
+            onChange={handleChange}
+          >
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+            <option value="4">Option 4</option>
+            <option value="5">Option 5</option>
+            <option value="6">Option 6</option>
+            <option value="7">Option 7</option>
+            <option value="8">Option 8</option>
+            <option value="9">Option 9</option>
+            <option value="10">Option 10</option>
+          </TextField>
+        </div>
+      </Grid>
+
+      <Grid item xs={12} sm={4}>
+        <div>
+          <p>Admission Type</p>
+          <TextField
+            id="outlined-select-currency-native"
+            select
+            name="admission"
+            label="Select"
             variant="outlined"
             size="small"
             className={classes.selectInput}
@@ -73,48 +93,6 @@ const School = ({ setSchoolForm }) => {
             <option value="3">Option 3</option>
             <option value="4">Option 4</option>
           </TextField>
-        </div>
-      </Grid>
-
-      <Grid item xs={12} sm={4}>
-        <div>
-          <p>Admission Type</p>
-          <Autocomplete
-            id="auto-select"
-            getOptionLabel={schools => schools.school}
-            options={schools}
-            style={{ width: 200 }}
-            size="small"
-            // value={selectedSchool}
-            name="selectedSchool"
-            onChange={handleChange}
-            onInputChange={handleChange}
-            autoSelect
-            renderInput={params => (
-              <TextField {...params}  variant="outlined" name="admission" onInputChange={handleChange} className={classes.textField}/>
-            )}
-          />
-
-          {/* <Autocomplete
-            className={classes.textField}
-            options={schools}
-            getOptionLabel={schools => schools.school}
-            style={{ width: 200 }}
-            size="small"
-            onInputChange={handleChange}
-            onChange={handleChange}
-            value={selectedSchool}
-            name="admission"
-            renderInput={params => (
-              <TextField
-                {...params}
-                label=""
-                variant="outlined"
-                value={selectedSchool}
-                name="selectedSchool"
-              />
-            )}
-          /> */}
         </div>
       </Grid>
       <Grid item xs={12} sm={4}>

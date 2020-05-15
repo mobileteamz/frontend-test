@@ -4,10 +4,25 @@ body {
   color: #2f303a8f;
   font-family: "Assistant", sans-serif;
 }
+.parrafo {
+  margin: 0;
+}
+#head {
+  font-size: 36px;
+  line-height: 1.6;
+  letter-spacing: 0.079em;
+  font-weight: 500;
+}
 hr {
-  border: 1px solid #2f303a8f;
-
-  transform: rotate(90deg);
+  /* border: 1px solid #2f303a8f; */
+  width: 48vw;
+  height: 2px;
+  margin-left: 6px;
+  margin-right: auto;
+  background-color: #2f303a8f;
+  border: 0 none;
+  position: relative;
+  top: 3px;
 }
 .title {
   border-bottom: 3px solid #2f303a8f;
@@ -24,7 +39,7 @@ hr {
   -moz-box-shadow: inset -3px 10px 5px -11px rgba(0, 0, 0, 0.75);
   box-shadow: inset -3px 10px 5px -11px rgba(0, 0, 0, 0.75);
   background-color: #c2c2c242;
-  width: 110%;
+  width: 80vw;
   height: 100px;
   position: relative;
   left: -30px;
@@ -47,18 +62,41 @@ hr {
 }
 .myButton1:hover {
   background-color: #dfdfdf;
-  color: #727171f1
+  color: #727171f1;
 }
 .myButton1:active {
   position: relative;
   top: 1px;
 }
 
-.inactive{
+.inactive {
   background-color: #c2c2c242;
-  color: #2f303a8f
+  color: #2f303a8f;
 }
 .inactive:hover {
   background-color: #727171f1;
   color: #f7f7f7;
+}
+
+.error {
+  color: #d95b5b;
+  font-size: 26px;
+  letter-spacing: 0.057em;
+  font-weight: 600;
+}
+.brakeline {
+  display: block ruby;
+  margin-top: 30px;
+}
+.flex {
+  display: flex;
+}
+@media only screen and (max-width: 600px) {
+  .brakeline hr {
+    display: none;
+  }
+  .footer {
+    display: block;
+    height: 200px;
+  }
 }

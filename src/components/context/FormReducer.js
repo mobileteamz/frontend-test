@@ -1,13 +1,15 @@
 //El reducer controla las acciones entre componentes,
 //creo un switch que recibe un type del dispatch desde FormState
-//al coincidir puede cambiar states
+//al coincidir ejerce cambios en los initial states
 
 import {
   FORM_VALIDATION,
   TOTAL_FED_LOANS,
   TOTAL_GRANTS_SCHOLARSHIPS,
-  TOTAL_COST
+  TOTAL_COST,
+  SEND_FORM
 } from "../../types";
+
 export default (state, action) => {
   switch (action.type) {
     case FORM_VALIDATION:
@@ -33,6 +35,11 @@ export default (state, action) => {
           parseInt(state.totalGrantsScholarships)
       };
     }
+    case SEND_FORM:
+      return{
+        ...state,
+        formError: false,
+      }
     default:
       return state;
   }

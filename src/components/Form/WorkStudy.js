@@ -16,9 +16,7 @@ const useStyles = makeStyles(theme => ({
       borderRadius: 0
     }
   },
-  selectInput: {
-    width: "200px"
-  },
+
   
 }));
 
