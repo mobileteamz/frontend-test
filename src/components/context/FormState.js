@@ -5,30 +5,28 @@ import {
   FORM_VALIDATION,
   TOTAL_COST,
   TOTAL_GRANTS_SCHOLARSHIPS,
-  TOTAL_FED_LOANS
+  TOTAL_FED_LOANS,
 } from "../../types";
 
 const FormState = props => {
   //State inicial
   const initialState = {
-    schools:[
-      {school: "Yale", id: 1},
-      {school: "Yale", id: 2},
-      {school: "Yale", id: 3},
-      {school: "Yale", id: 4},
-      {school: "Yale", id: 5},
-      {school: "Yale", id: 6},
-      {school: "Yale", id: 7},
-      {school: "Yale", id: 8},
-      {school: "Yale", id: 9},
-      {school: "Yale", id: 10},
-  ],
+    schools: [
+      { school: "Yale", id: 1 },
+      { school: "Yale", id: 2 },
+      { school: "Yale", id: 3 },
+      { school: "Yale", id: 4 },
+      { school: "Yale", id: 5 },
+      { school: "Yale", id: 6 },
+      { school: "Yale", id: 7 },
+      { school: "Yale", id: 8 },
+      { school: "Yale", id: 9 },
+      { school: "Yale", id: 10 }
+    ],
     totalGrantsScholarships: "",
     totalFederalLoans: "",
     totalCost: "",
-    workstudy: "",
-    formError: false,
-    completedForm: null
+    formError: false
   };
 
   const [state, dispatch] = useReducer(FormReducer, initialState);
@@ -39,17 +37,23 @@ const FormState = props => {
     });
   };
 
-  const setTotalFedLoans = (sumTotalFedLoans) => {
+  const setTotalFedLoans = sumTotalFedLoans => {
     dispatch({
       type: TOTAL_FED_LOANS,
       payload: sumTotalFedLoans
     });
   };
 
-  const setTotalGrantsScholarships = (sumTotalGrantsScholarships) => {
+  const setTotalGrantsScholarships = sumTotalGrantsScholarships => {
     dispatch({
       type: TOTAL_GRANTS_SCHOLARSHIPS,
       payload: sumTotalGrantsScholarships
+    });
+  };
+
+  const setTotalCost = () => {
+    dispatch({
+      type: TOTAL_COST
     });
   };
 
@@ -60,9 +64,11 @@ const FormState = props => {
         schools: state.schools,
         totalFederalLoans: state.totalFederalLoans,
         totalGrantsScholarships: state.totalGrantsScholarships,
+        totalCost: state.totalCost,
         setTotalFedLoans,
         setTotalGrantsScholarships,
-        handleError
+        handleError,
+        setTotalCost  
       }}
     >
       {props.children}

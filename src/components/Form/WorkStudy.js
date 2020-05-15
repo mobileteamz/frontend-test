@@ -1,7 +1,6 @@
-import React, { useState, useContext, useEffect } from "react";
-import FormContext from "../../components/context/FormContext";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { TextField, Checkbox, Grid } from "@material-ui/core/";
+import { TextField, Grid } from "@material-ui/core/";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,24 +15,35 @@ const useStyles = makeStyles(theme => ({
   },
   selectInput: {
     width: "200px"
+  },
+  textField: {
+    [`& fieldset`]: {
+      borderRadius: 0,
+    }
   }
 }));
 
-const WorkStudy = () => {
+const WorkStudy = ({setWorkStudyForm}) => {
   const classes = useStyles();
-  const formContext = useContext(FormContext);
-  const { formError, handleError, schools } = formContext;
   const [workStudy, setWorkStudy] = useState({
     workStudy: ""
   });
+
   const handleChange = event => {
+    console.log(workStudy)
     setWorkStudy({
       ...workStudy,
       [event.target.name]: event.target.value
     });
   };
+  useEffect(() => {
+    const setWork = () => {
+      setWorkStudyForm(workStudy);
+    }
+    setWork();
+  }, [workStudy]);
   return (
-    <Grid container spacing={1}>
+    <Grid container spacing={1} className={classes.root}>
       <Grid item xs={12}>
         <div>
           <h4>Work study</h4>
@@ -41,13 +51,13 @@ const WorkStudy = () => {
         <div>
           <TextField
             type="number"
-            id="outlined-basic"
+            className={classes.textField}
             label="$"
             variant="outlined"
             display="inline"
             size="small"
             name="workStudy"
-            value={workStudy}
+            // value={workStudy}
             onChange={handleChange}
           />
         </div>

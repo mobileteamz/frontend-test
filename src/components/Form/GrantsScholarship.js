@@ -15,25 +15,34 @@ const useStyles = makeStyles(theme => ({
     width: "25ch"
   },
   selectInput: {
-    width: "200px"
+    width: "200px",
+    [`& fieldset`]: {
+      borderRadius: 0,
+    },
+  },
+  textField: {
+    [`& fieldset`]: {
+      borderRadius: 0,
+    }
   }
 }));
 
-const GrantScholarship = () => {
+const GrantScholarship = ({ setGrantsScholarship }) => {
   const classes = useStyles();
   const formContext = useContext(FormContext);
-  const {
-    formError,
-    handleError,
-    totalGrantsScholarships,
-    setTotalGrantsScholarships
-  } = formContext;
+  const { totalGrantsScholarships, setTotalGrantsScholarships } = formContext;
+  const [isRenewable, setIsRenewable] = useState({
+    onNeed: false,
+    notOnNeeds: false,
+    privateRenew: false
+  });
   const [grantAndScholarLoan, setGrantAndScholarLoan] = useState({
     institutionOnNeed: "",
     institutionNotOnNeed: "",
     government: "",
     privateLoan: ""
   });
+
   //destruncturing
   const {
     institutionOnNeed,
@@ -41,6 +50,15 @@ const GrantScholarship = () => {
     government,
     privateLoan
   } = grantAndScholarLoan;
+
+  const { onNeed, notOnNeeds, privateRenew } = isRenewable;
+
+  const handleRenewable = event => {
+    setIsRenewable({
+      ...isRenewable,
+      [event.target.id]: event.target.checked
+    });
+  };
   const handleChange = event => {
     setGrantAndScholarLoan({
       ...grantAndScholarLoan,
@@ -61,35 +79,60 @@ const GrantScholarship = () => {
         setTotalGrantsScholarships(0);
       }
     };
+
+    const setGrant = () => {
+      setGrantsScholarship(grantAndScholarLoan);
+    };
+    setGrant();
     displayGrantAndScholarLoan();
   }, [grantAndScholarLoan]);
 
-  const renewable = event => {
-    let id = event.target.id;
-    console.log(id);
-    switch (id) {
-      case "onNeed":
-        return setGrantAndScholarLoan({
-          ...grantAndScholarLoan,
-          institutionOnNeed: institutionOnNeed * 4
-        });
-        
-      case "notOnNeeds":
-        return setGrantAndScholarLoan({
-          ...grantAndScholarLoan,
-          institutionNotOnNeed: institutionNotOnNeed * 4
-        });
-        
-      case "private":
-        return setGrantAndScholarLoan({
-          ...grantAndScholarLoan,
-          privateLoan: privateLoan * 4
-        });
-        
-      default:
-        return null;
-    }
-  };
+  useEffect(() => {
+    const multiplyNotOnNeed = () => {
+      notOnNeeds
+        ? setGrantAndScholarLoan({
+            ...grantAndScholarLoan,
+            institutionNotOnNeed: institutionNotOnNeed * 4
+          })
+        : setGrantAndScholarLoan({
+            ...grantAndScholarLoan,
+            institutionNotOnNeed: institutionNotOnNeed / 4
+          });
+    };
+
+    multiplyNotOnNeed();
+  }, [notOnNeeds]);
+
+  useEffect(() => {
+    const multiplyOnNeed = () => {
+      onNeed
+        ? setGrantAndScholarLoan({
+            ...grantAndScholarLoan,
+            institutionOnNeed: institutionOnNeed * 4
+          })
+        : setGrantAndScholarLoan({
+            ...grantAndScholarLoan,
+            institutionOnNeed: institutionOnNeed / 4
+          });
+    };
+    multiplyOnNeed();
+  }, [onNeed]);
+
+  useEffect(() => {
+    const multiplyPrivate = () => {
+      privateRenew
+        ? setGrantAndScholarLoan({
+            ...grantAndScholarLoan,
+            privateLoan: privateLoan * 4
+          })
+        : setGrantAndScholarLoan({
+            ...grantAndScholarLoan,
+            privateLoan: privateLoan / 4
+          });
+    };
+    multiplyPrivate();
+  }, [privateRenew]);
+
   return (
     <div className={classes.root}>
       <Grid container spacing={2}>
@@ -104,7 +147,7 @@ const GrantScholarship = () => {
           <div>
             <TextField
               type="number"
-              id="outlined-basic"
+              className={classes.textField}
               label="$"
               variant="outlined"
               display="inline"
@@ -120,7 +163,8 @@ const GrantScholarship = () => {
               display="block"
               color="default"
               inputProps={{ "aria-label": "checkbox with default color" }}
-              onChange={event => renewable(event)}
+              // onChange={event => renewable(event)}
+              onChange={handleRenewable}
             />
             <span>Yes, it´s reneweable.</span>
           </div>
@@ -137,7 +181,7 @@ const GrantScholarship = () => {
           <div>
             <TextField
               type="number"
-              id="outlined-basic"
+              className={classes.textField}
               label="$"
               variant="outlined"
               display="inline"
@@ -154,7 +198,7 @@ const GrantScholarship = () => {
               display="block"
               color="default"
               inputProps={{ "aria-label": "checkbox with default color" }}
-              onChange={event => renewable(event)}
+              onChange={handleRenewable}
             />
             <span>Yes, it´s reneweable.</span>
           </div>
@@ -170,6 +214,7 @@ const GrantScholarship = () => {
           <div>
             <TextField
               type="number"
+              className={classes.textField}
               id="government"
               label="$"
               variant="outlined"
@@ -189,6 +234,7 @@ const GrantScholarship = () => {
           <div>
             <TextField
               type="number"
+              className={classes.textField}
               id="private"
               label="$"
               variant="outlined"
@@ -201,22 +247,24 @@ const GrantScholarship = () => {
           </div>
           <div>
             <Checkbox
-              id="private"
+              id="privateRenew"
               display="block"
               color="default"
               inputProps={{ "aria-label": "checkbox with default color" }}
-              onChange={event => renewable(event)}
+              onChange={handleRenewable}
             />
-            <span>Yes, it´s reneweable.</span>
+            <span>Yes, this will reduce my aid.</span>
           </div>
         </Grid>
-        <div>
-          <h2 className="title">
-            Total Grants & Scholarships:
-            {totalGrantsScholarships === "" || NaN
-              ? "00,000"
-              : totalGrantsScholarships}
-          </h2>
+        <div className="title">
+          <h2 className="subtitle">Total Grants & Scholarships:</h2>
+          <span>
+            <h2>
+              {totalGrantsScholarships === 0
+                ? "    $00,000"
+                : `$${totalGrantsScholarships}`}
+            </h2>
+          </span>
         </div>
       </Grid>
     </div>

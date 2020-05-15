@@ -19,3 +19,9 @@ hr{
 .border{
   border-radius: 0px;
 }
+.subtitle{
+  font-weight: 500
+}
+.container{
+  width: 50%;
+}

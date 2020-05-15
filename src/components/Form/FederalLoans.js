@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import FormContext from "../../components/context/FormContext";
 import { makeStyles } from "@material-ui/core/styles";
-import { TextField, Checkbox, Grid } from "@material-ui/core/";
+import { TextField, Grid } from "@material-ui/core/";
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
@@ -12,24 +12,32 @@ const useStyles = makeStyles(theme => ({
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: "25ch",
-    
+    width: "25ch"
   },
   selectInput: {
     width: "200px"
+  },
+  textField: {
+    [`& fieldset`]: {
+      borderRadius: 0,
+    }
   }
 }));
 
-const FederalLoans = () => {
+const FederalLoans = ({setFedForm}) => {
   const classes = useStyles();
   const formContext = useContext(FormContext);
-  const { formError, handleError, totalFederalLoans, setTotalFedLoans } = formContext;
+  const {
+    totalFederalLoans,
+    setTotalFedLoans,
+    fullForm
+  } = formContext;
   const [fedLoans, setFedLoans] = useState({
     subsidizedFedLoan: "",
     unsubsidizedFedLoan: ""
   });
-//destructuring
-const {subsidizedFedLoan, unsubsidizedFedLoan } = fedLoans;
+  //destructuring
+  const { subsidizedFedLoan, unsubsidizedFedLoan } = fedLoans;
 
   const handleChange = event => {
     setFedLoans({
@@ -39,17 +47,23 @@ const {subsidizedFedLoan, unsubsidizedFedLoan } = fedLoans;
   };
 
   useEffect(() => {
-    const sumFedLoans = parseInt(subsidizedFedLoan) + parseInt(unsubsidizedFedLoan) ;
+    const sumFedLoans =
+      parseInt(subsidizedFedLoan) + parseInt(unsubsidizedFedLoan);
     const displayFedLoans = () => {
-        if (sumFedLoans >= 0) {
-          setTotalFedLoans(sumFedLoans);
-          console.log(sumFedLoans)
-        } else {
-            setTotalFedLoans(0)
-        }
-      };
-      displayFedLoans();
-  }, [fedLoans])
+      if (sumFedLoans >= 0) {
+        setTotalFedLoans(sumFedLoans);
+        console.log(sumFedLoans);
+      } else {
+        setTotalFedLoans(0);
+      }
+    };
+    const setFed = () => {
+      console.log(fullForm)
+      setFedForm(fedLoans);
+    };
+    setFed();
+    displayFedLoans();
+  }, [fedLoans]);
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} sm={6}>
@@ -59,7 +73,7 @@ const {subsidizedFedLoan, unsubsidizedFedLoan } = fedLoans;
         <div>
           <TextField
             type="number"
-            id="outlined-basic"
+            className={classes.textField}
             label="$"
             variant="outlined"
             display="inline"
@@ -77,7 +91,7 @@ const {subsidizedFedLoan, unsubsidizedFedLoan } = fedLoans;
         <div>
           <TextField
             type="number"
-            id="outlined-basic"
+            className={classes.textField}
             label="$"
             variant="outlined"
             display="inline"
@@ -88,10 +102,10 @@ const {subsidizedFedLoan, unsubsidizedFedLoan } = fedLoans;
           />
         </div>
       </Grid>
-      <div>
+      <div className="title">
         <h2>
-          Total Federal Loans: {totalFederalLoans === "" || NaN ? "00,000" : totalFederalLoans}
-          
+          Total Federal Loans:
+          {totalFederalLoans === 0 ? "   $00,000" : `$${totalFederalLoans}`}
         </h2>
       </div>
     </Grid>

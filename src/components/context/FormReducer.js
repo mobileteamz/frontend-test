@@ -1,7 +1,8 @@
 import {
   FORM_VALIDATION,
   TOTAL_FED_LOANS,
-  TOTAL_GRANTS_SCHOLARSHIPS
+  TOTAL_GRANTS_SCHOLARSHIPS,
+  TOTAL_COST
 } from "../../types";
 export default (state, action) => {
   switch (action.type) {
@@ -20,6 +21,12 @@ export default (state, action) => {
         ...state,
         totalGrantsScholarships: action.payload
       };
+    case TOTAL_COST:{
+      return{
+        ...state,
+        totalCost: parseInt(state.totalFederalLoans) + parseInt(state.totalGrantsScholarships)
+      }
+    }  
     default:
       return state;
   }
