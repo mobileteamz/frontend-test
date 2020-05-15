@@ -39,7 +39,7 @@ hr {
   -moz-box-shadow: inset -3px 10px 5px -11px rgba(0, 0, 0, 0.75);
   box-shadow: inset -3px 10px 5px -11px rgba(0, 0, 0, 0.75);
   background-color: #c2c2c242;
-  width: 80vw;
+  width: 108%;
   height: 100px;
   position: relative;
   left: -30px;
