@@ -18,14 +18,14 @@ const useStyles = makeStyles(theme => ({
   selectInput: {
     width: "200px",
     [`& fieldset`]: {
-      borderRadius: 0,
-    },
+      borderRadius: 0
+    }
   },
   textField: {
     [`& fieldset`]: {
-      borderRadius: 0,
-    },
-}
+      borderRadius: 0
+    }
+  }
 }));
 
 const School = ({ setSchoolForm }) => {
@@ -34,11 +34,11 @@ const School = ({ setSchoolForm }) => {
   const { schools } = formContext;
   const [school, setSchool] = useState({
     selectedSchool: "",
-    admision: "",
+    admission: "",
     attendance: ""
   });
   //destruturing
-  const { selectedSchool, admision, attendance } = school;
+  const { selectedSchool, admission, attendance } = school;
   const handleChange = event => {
     setSchool({
       ...school,
@@ -59,7 +59,46 @@ const School = ({ setSchoolForm }) => {
           <p>Select the school</p>
         </div>
         <div>
+          <TextField
+            id="outlined-select-currency-native"
+            select
+            name="selectedSchool"
+            label="Select"
+            // value={admission}
+            onChange={handleChange}
+            variant="outlined"
+            size="small"
+            className={classes.selectInput}
+            onChange={handleChange}
+          >
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+            <option value="4">Option 4</option>
+          </TextField>
+        </div>
+      </Grid>
+
+      <Grid item xs={12} sm={4}>
+        <div>
+          <p>Admission Type</p>
           <Autocomplete
+            id="auto-select"
+            getOptionLabel={schools => schools.school}
+            options={schools}
+            style={{ width: 200 }}
+            size="small"
+            // value={selectedSchool}
+            name="selectedSchool"
+            onChange={handleChange}
+            onInputChange={handleChange}
+            autoSelect
+            renderInput={params => (
+              <TextField {...params}  variant="outlined" name="admission" onInputChange={handleChange} className={classes.textField}/>
+            )}
+          />
+
+          {/* <Autocomplete
             className={classes.textField}
             options={schools}
             getOptionLabel={schools => schools.school}
@@ -68,7 +107,7 @@ const School = ({ setSchoolForm }) => {
             onInputChange={handleChange}
             onChange={handleChange}
             value={selectedSchool}
-            name="selectedSchool"
+            name="admission"
             renderInput={params => (
               <TextField
                 {...params}
@@ -78,31 +117,8 @@ const School = ({ setSchoolForm }) => {
                 name="selectedSchool"
               />
             )}
-          />
+          /> */}
         </div>
-      </Grid>
-
-      <Grid item xs={12} sm={4}>
-        <div>
-          <p>Admision Type</p>
-        </div>
-        <TextField
-          id="outlined-select-currency-native"
-          select
-          name="admision"
-          label="Select"
-          value={admision}
-          onChange={handleChange}
-          variant="outlined"
-          size="small"
-          className={classes.selectInput}
-          onChange={handleChange}
-        >
-          <option value="1">Option 1</option>
-          <option value="2">Option 2</option>
-          <option value="3">Option 3</option>
-          <option value="4">Option 4</option>
-        </TextField>
       </Grid>
       <Grid item xs={12} sm={4}>
         <div>

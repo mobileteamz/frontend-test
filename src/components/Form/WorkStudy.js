@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Grid } from "@material-ui/core/";
-
+//estilos material ui
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
@@ -18,28 +18,29 @@ const useStyles = makeStyles(theme => ({
   },
   textField: {
     [`& fieldset`]: {
-      borderRadius: 0,
+      borderRadius: 0
     }
   }
 }));
 
-const WorkStudy = ({setWorkStudyForm}) => {
+const WorkStudy = ({ setWorkStudyForm }) => {
   const classes = useStyles();
+  //state form local
   const [workStudy, setWorkStudy] = useState({
     workStudy: ""
   });
-
+  //manejo los cambios en los inputs
   const handleChange = event => {
-    console.log(workStudy)
     setWorkStudy({
       ...workStudy,
       [event.target.name]: event.target.value
     });
   };
+  //mando state local al form padre
   useEffect(() => {
     const setWork = () => {
       setWorkStudyForm(workStudy);
-    }
+    };
     setWork();
   }, [workStudy]);
   return (

@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import FormContext from "../../components/context/FormContext";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Checkbox, Grid } from "@material-ui/core/";
-
+//style para modificar componenetes de material ui
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
@@ -17,25 +17,29 @@ const useStyles = makeStyles(theme => ({
   selectInput: {
     width: "200px",
     [`& fieldset`]: {
-      borderRadius: 0,
-    },
+      borderRadius: 0
+    }
   },
   textField: {
     [`& fieldset`]: {
-      borderRadius: 0,
+      borderRadius: 0
     }
   }
 }));
 
 const GrantScholarship = ({ setGrantsScholarship }) => {
   const classes = useStyles();
+  //llamo al context
   const formContext = useContext(FormContext);
+  //destructuring context
   const { totalGrantsScholarships, setTotalGrantsScholarships } = formContext;
+  //state para multiplicar valores de ciertos inputs
   const [isRenewable, setIsRenewable] = useState({
     onNeed: false,
     notOnNeeds: false,
     privateRenew: false
   });
+  //state del form
   const [grantAndScholarLoan, setGrantAndScholarLoan] = useState({
     institutionOnNeed: "",
     institutionNotOnNeed: "",
@@ -43,7 +47,7 @@ const GrantScholarship = ({ setGrantsScholarship }) => {
     privateLoan: ""
   });
 
-  //destruncturing
+  //destructuring
   const {
     institutionOnNeed,
     institutionNotOnNeed,
@@ -52,20 +56,21 @@ const GrantScholarship = ({ setGrantsScholarship }) => {
   } = grantAndScholarLoan;
 
   const { onNeed, notOnNeeds, privateRenew } = isRenewable;
-
+  //manejo los cambios de los checkbox para multiplicar
   const handleRenewable = event => {
     setIsRenewable({
       ...isRenewable,
       [event.target.id]: event.target.checked
     });
   };
+  //seteo el state del form
   const handleChange = event => {
     setGrantAndScholarLoan({
       ...grantAndScholarLoan,
       [event.target.name]: event.target.value
     });
   };
-
+  //use effect para monitorear cambios y actualizar montos totales
   useEffect(() => {
     const sumGrantAndScholarLoan =
       parseInt(institutionOnNeed) +
@@ -79,14 +84,15 @@ const GrantScholarship = ({ setGrantsScholarship }) => {
         setTotalGrantsScholarships(0);
       }
     };
-
+    //función del padre, lleva los datos al form
     const setGrant = () => {
       setGrantsScholarship(grantAndScholarLoan);
     };
     setGrant();
     displayGrantAndScholarLoan();
   }, [grantAndScholarLoan]);
-
+//tres funciones que multiplican ciertos inputs al seleccionar checkbox
+//1
   useEffect(() => {
     const multiplyNotOnNeed = () => {
       notOnNeeds
@@ -102,7 +108,7 @@ const GrantScholarship = ({ setGrantsScholarship }) => {
 
     multiplyNotOnNeed();
   }, [notOnNeeds]);
-
+//2
   useEffect(() => {
     const multiplyOnNeed = () => {
       onNeed
@@ -117,7 +123,7 @@ const GrantScholarship = ({ setGrantsScholarship }) => {
     };
     multiplyOnNeed();
   }, [onNeed]);
-
+//3
   useEffect(() => {
     const multiplyPrivate = () => {
       privateRenew

@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import FormContext from "../../components/context/FormContext";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Grid } from "@material-ui/core/";
+//styles de material ui
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
@@ -26,39 +27,41 @@ const useStyles = makeStyles(theme => ({
 
 const FederalLoans = ({setFedForm}) => {
   const classes = useStyles();
+  //llamo al context
   const formContext = useContext(FormContext);
+  //destructuring context
   const {
     totalFederalLoans,
     setTotalFedLoans,
     fullForm
   } = formContext;
+  //state del form local
   const [fedLoans, setFedLoans] = useState({
     subsidizedFedLoan: "",
     unsubsidizedFedLoan: ""
   });
   //destructuring
   const { subsidizedFedLoan, unsubsidizedFedLoan } = fedLoans;
-
+//manejo los cambios en los inputs
   const handleChange = event => {
     setFedLoans({
       ...fedLoans,
       [event.target.name]: event.target.value
     });
   };
-
+//sumo el total de los inputs
   useEffect(() => {
     const sumFedLoans =
       parseInt(subsidizedFedLoan) + parseInt(unsubsidizedFedLoan);
     const displayFedLoans = () => {
       if (sumFedLoans >= 0) {
         setTotalFedLoans(sumFedLoans);
-        console.log(sumFedLoans);
       } else {
         setTotalFedLoans(0);
       }
     };
+    //mando data al form padre
     const setFed = () => {
-      console.log(fullForm)
       setFedForm(fedLoans);
     };
     setFed();
@@ -105,6 +108,7 @@ const FederalLoans = ({setFedForm}) => {
       <div className="title">
         <h2>
           Total Federal Loans:
+          {/* condicional para mostrar el resultado de la suma de los inputs */}
           {totalFederalLoans === 0 ? "   $00,000" : `$${totalFederalLoans}`}
         </h2>
       </div>
