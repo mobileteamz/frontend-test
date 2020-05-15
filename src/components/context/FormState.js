@@ -7,7 +7,6 @@ import {
   TOTAL_GRANTS_SCHOLARSHIPS,
   TOTAL_FED_LOANS
 } from "../../types";
-import { statements } from "@babel/template";
 
 // Store que contiene context, state y reducer
 // de esta manera el state se puede propagar por el arbol de componentes

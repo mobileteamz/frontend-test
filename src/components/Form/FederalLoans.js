@@ -13,16 +13,15 @@ const useStyles = makeStyles(theme => ({
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: "25ch"
+    width: "25ch",
+    [`& fieldset`]: {
+      borderRadius: 0,
+    }
   },
   selectInput: {
     width: "200px"
   },
-  textField: {
-    [`& fieldset`]: {
-      borderRadius: 0,
-    }
-  }
+  
 }));
 
 const FederalLoans = ({setFedForm}) => {
@@ -33,7 +32,6 @@ const FederalLoans = ({setFedForm}) => {
   const {
     totalFederalLoans,
     setTotalFedLoans,
-    fullForm
   } = formContext;
   //state del form local
   const [fedLoans, setFedLoans] = useState({

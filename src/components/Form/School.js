@@ -13,7 +13,9 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
     width: "25ch",
-    borderRadius: "50%"
+    [`& fieldset`]: {
+      borderRadius: 0
+    }
   },
   selectInput: {
     width: "200px",
@@ -21,11 +23,7 @@ const useStyles = makeStyles(theme => ({
       borderRadius: 0
     }
   },
-  textField: {
-    [`& fieldset`]: {
-      borderRadius: 0
-    }
-  }
+
 }));
 
 const School = ({ setSchoolForm }) => {
@@ -65,7 +63,6 @@ const School = ({ setSchoolForm }) => {
             name="selectedSchool"
             label="Select"
             // value={admission}
-            onChange={handleChange}
             variant="outlined"
             size="small"
             className={classes.selectInput}

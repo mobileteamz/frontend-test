@@ -1,8 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import FormContext from "../../components/context/FormContext";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button } from "@material-ui/core/";
-import { blueGrey, grey } from "@material-ui/core/colors";
 import GrantScholarship from "./GrantsScholarship";
 import WorkStudy from "./WorkStudy";
 import School from "./School";
@@ -17,37 +15,6 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     width: "100%"
   },
-
-  button1: {
-    borderRadius: 3,
-    border: 0,
-    color: "white",
-    height: 38,
-    padding: "0 30px",
-    margin: theme.spacing(3),
-    backgroundColor: grey[500],
-    "&:hover": {
-      backgroundColor: grey[700]
-    },
-    lineHeight: 26,
-    fontSize: 11,
-    fontWeight: 500,
-    letterSpacing: 5.5
-  },
-  button2: {
-    borderRadius: 3,
-    border: 0,
-    height: 38,
-    padding: "0 30px",
-    margin: theme.spacing(3),
-    "&:hover": {
-      backgroundColor: grey[700]
-    },
-    lineHeight: 26,
-    fontSize: 11,
-    fontWeight: 500,
-    letterSpacing: 5.5
-  }
 }));
 
 const Form = () => {

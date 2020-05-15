@@ -11,16 +11,15 @@ const useStyles = makeStyles(theme => ({
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: "25ch"
+    width: "25ch",
+    [`& fieldset`]: {
+      borderRadius: 0
+    }
   },
   selectInput: {
     width: "200px"
   },
-  textField: {
-    [`& fieldset`]: {
-      borderRadius: 0
-    }
-  }
+  
 }));
 
 const WorkStudy = ({ setWorkStudyForm }) => {
