@@ -1,16 +1,3 @@
-Entrego el exámen, les cuento un poco de cómo lo encaré.
-
-Al principio me sentí un poco abrumado por tanta funcionalidad en un modal pero luego lo diagramé en un cuaderno y pude encontrar el método.
-Implementé el uso Material UI como librería de componentes, su uso no me convenció del todo, ya que se hace complicado customizar los componenetes, por esto mantuve el css global para cambios puntuales.
-
-Utilicé HOOKS, para simular una app grande donde los datos deben fluir a lo largo del árbol de componenetes. Mi principal preocupación era la magnitud del form por sus campos y funcionalidad, ante esto lo fragmenté en secciones/componenetes que se derivan en un form padre. Por temas de tiempo no pude hacer un post en Firebase, lo tenía planeado para consolidar el objetivo del form. Agregué los comentarios necesario, de haber cosas confusas o mal explicadas, pueden preguntar.
-
-En testing no tengo conocimientos y estuve viendo un poco de git-flow, se ve muy bueno pero no alcancé a implementarlo, de seguro estudiaré sobre estos temas más allá de la decisión que tomen.
-
-
-
-
-
 
 # Project requirement
 
