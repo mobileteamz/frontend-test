@@ -1,42 +1,33 @@
-import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useState, useEffect, useContext } from "react";
 import { TextField, Grid } from "@material-ui/core/";
-//estilos material ui
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: "flex",
-    flexWrap: "wrap",
-    flexGrow: 1
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: "25ch",
-    [`& fieldset`]: {
-      borderRadius: 0
-    }
-  },
+import FormContext from "./context/FormContext";
+import useStyles from "../layout/myTheme";
 
-  
-}));
-
-const WorkStudy = ({ setWorkStudyForm }) => {
+const WorkStudy = ({ setWorkStudyForm, emptyFields }) => {
   const classes = useStyles();
+  //llamo al context
+  const formContext = useContext(FormContext);
+  //destructuring context
+  const { setWorkStudyContext } = formContext;
+  //declaro state de error
+  const [invalid, setInvalid] = useState(false);
   //state form local
-  const [workStudy, setWorkStudy] = useState({
-    workStudy: ""
-  });
+  const [workStudy, setWorkStudy] = useState("");
   //manejo los cambios en los inputs
   const handleChange = event => {
-    setWorkStudy({
-      ...workStudy,
-      [event.target.name]: event.target.value
-    });
+    setWorkStudy((event.target.name = event.target.value));
   };
+  ////función para recibir los campos vacios y activar el error
+  useEffect(() => {
+    if (emptyFields.length !== 0) {
+      setInvalid(true);
+    }
+  }, [emptyFields]);
   //mando state local al form padre
   useEffect(() => {
     const setWork = () => {
       setWorkStudyForm(workStudy);
+      setWorkStudyContext(parseInt(workStudy));
     };
     setWork();
   }, [workStudy]);
@@ -55,6 +46,7 @@ const WorkStudy = ({ setWorkStudyForm }) => {
             display="inline"
             size="small"
             name="workStudy"
+            error={workStudy === "" ? invalid : null}
             // value={workStudy}
             onChange={handleChange}
           />

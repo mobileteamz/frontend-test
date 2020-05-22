@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import FormState from "./components/context/FormState";
+import FormState from "./components/Form/context/FormState";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(

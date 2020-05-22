@@ -7,8 +7,10 @@ import {
   TOTAL_FED_LOANS,
   TOTAL_GRANTS_SCHOLARSHIPS,
   TOTAL_COST,
-  SEND_FORM
-} from "../../types";
+  SEND_FORM,
+  WORK_STUDY,
+  ATTENDANCE_STATE
+} from "./types";
 
 export default (state, action) => {
   switch (action.type) {
@@ -17,22 +19,36 @@ export default (state, action) => {
         ...state,
         formError: true
       };
+      case ATTENDANCE_STATE:
+          return{
+            ...state,
+            attendance: action.payload || 0
+          } 
     case TOTAL_FED_LOANS:
       return {
         ...state,
-        totalFederalLoans: action.payload
+        totalFederalLoans: action.payload 
       };
     case TOTAL_GRANTS_SCHOLARSHIPS:
       return {
         ...state,
-        totalGrantsScholarships: action.payload
+        totalGrantsScholarships: action.payload 
       };
+    case WORK_STUDY:
+      return{
+        ...state,
+        workStudy: action.payload || 0
+      } 
+    
     case TOTAL_COST: {
       return {
         ...state,
         totalCost:
+          parseInt(state.attendance) +        
           parseInt(state.totalFederalLoans) +
-          parseInt(state.totalGrantsScholarships)
+          parseInt(state.totalGrantsScholarships)+
+          parseInt(state.workStudy)
+          
       };
     }
     case SEND_FORM:

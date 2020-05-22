@@ -1,36 +1,15 @@
 import React, { useState, useContext, useEffect } from "react";
-import FormContext from "../../components/context/FormContext";
-import { makeStyles } from "@material-ui/core/styles";
+import FormContext from "./context/FormContext";
 import { TextField, Checkbox, Grid } from "@material-ui/core/";
-//style para modificar componenetes de material ui
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: "flex",
-    flexWrap: "wrap",
-    flexGrow: 1
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: "25ch",
-    [`& fieldset`]: {
-      borderRadius: 0
-    }
-  },
-  selectInput: {
-    width: "200px",
-    [`& fieldset`]: {
-      borderRadius: 0
-    }
-  }
-}));
+import useStyles from "../layout/myTheme";
 
-const GrantScholarship = ({ setGrantsScholarship }) => {
+const GrantScholarship = ({ setGrantsScholarship, emptyFields }) => {
   const classes = useStyles();
   //llamo al context
   const formContext = useContext(FormContext);
   //destructuring context
   const { totalGrantsScholarships, setTotalGrantsScholarships } = formContext;
+  const [invalid, setInvalid] = useState(false);
   //state para multiplicar valores de ciertos inputs
   const [isRenewable, setIsRenewable] = useState({
     onNeed: false,
@@ -65,10 +44,10 @@ const GrantScholarship = ({ setGrantsScholarship }) => {
   //use effect para monitorear cambios y actualizar montos totales
   useEffect(() => {
     const sumGrantAndScholarLoan =
-      parseInt(institutionOnNeed) +
-      parseInt(institutionNotOnNeed) +
-      parseInt(government) +
-      parseInt(privateLoan);
+      parseInt(institutionOnNeed || 0) +
+      parseInt(institutionNotOnNeed || 0) +
+      parseInt(government || 0) +
+      parseInt(privateLoan || 0);
     const displayGrantAndScholarLoan = () => {
       if (sumGrantAndScholarLoan >= 0) {
         setTotalGrantsScholarships(sumGrantAndScholarLoan);
@@ -83,6 +62,12 @@ const GrantScholarship = ({ setGrantsScholarship }) => {
     setGrant();
     displayGrantAndScholarLoan();
   }, [grantAndScholarLoan]);
+  //función para recibir los campos vacios y activar el error
+  useEffect(() => {
+    if (emptyFields.length !== 0) {
+      setInvalid(true);
+    }
+  }, [emptyFields]);
   //tres funciones que multiplican respectivos inputs al seleccionar checkbox
   //1
 
@@ -96,13 +81,13 @@ const GrantScholarship = ({ setGrantsScholarship }) => {
           ...grantAndScholarLoan,
           institutionNotOnNeed: institutionNotOnNeed / 4
         });
-        //seteo el state de los checkbox
+    //seteo el state de los checkbox
     setIsRenewable({
       ...isRenewable,
       [event.target.id]: event.target.checked
     });
   };
- 
+
   //2
 
   const multiplyOnNeed = event => {
@@ -158,7 +143,8 @@ const GrantScholarship = ({ setGrantsScholarship }) => {
               variant="outlined"
               display="inline"
               size="small"
-              value={institutionOnNeed}
+              // value={institutionOnNeed}
+              error={institutionOnNeed === "" ? invalid : null}
               name="institutionOnNeed"
               onChange={handleChange}
             />
@@ -192,7 +178,8 @@ const GrantScholarship = ({ setGrantsScholarship }) => {
               display="inline"
               size="small"
               name="institutionNotOnNeed"
-              value={institutionNotOnNeed}
+              error={institutionNotOnNeed === "" ? invalid : null}
+              // value={institutionNotOnNeed}
               onChange={handleChange}
             />
           </div>
@@ -226,7 +213,8 @@ const GrantScholarship = ({ setGrantsScholarship }) => {
               display="inline"
               size="small"
               name="government"
-              value={government}
+              error={government === "" ? invalid : null}
+              // value={government}
               onChange={handleChange}
             />
           </div>
@@ -246,7 +234,8 @@ const GrantScholarship = ({ setGrantsScholarship }) => {
               display="inline"
               size="small"
               name="privateLoan"
-              value={privateLoan}
+              error={privateLoan === "" ? invalid : null}
+              // value={privateLoan}
               onChange={handleChange}
             />
           </div>
@@ -262,7 +251,7 @@ const GrantScholarship = ({ setGrantsScholarship }) => {
           </div>
         </Grid>
         <div className="title flex">
-          <h2 className="subtitle">Total Grants & Scholarships:  </h2>
+          <h2 className="subtitle">Total Grants & Scholarships: </h2>
           <span>
             <h2>
               {totalGrantsScholarships === 0

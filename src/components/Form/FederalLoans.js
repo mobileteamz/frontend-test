@@ -1,31 +1,16 @@
 import React, { useState, useContext, useEffect } from "react";
-import FormContext from "../../components/context/FormContext";
-import { makeStyles } from "@material-ui/core/styles";
+import FormContext from "./context/FormContext";
 import { TextField, Grid } from "@material-ui/core/";
-//styles de material ui
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: "flex",
-    flexWrap: "wrap",
-    flexGrow: 1,
-    borderRadius: "0px"
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: "25ch",
-    [`& fieldset`]: {
-      borderRadius: 0
-    }
-  }
-}));
+import useStyles from "../layout/myTheme";
 
-const FederalLoans = ({ setFedForm }) => {
+const FederalLoans = ({ setFedForm, emptyFields }) => {
   const classes = useStyles();
   //llamo al context
   const formContext = useContext(FormContext);
   //destructuring context
   const { totalFederalLoans, setTotalFedLoans } = formContext;
+
+  const [invalid, setInvalid] = useState(false);
   //state del form local
   const [fedLoans, setFedLoans] = useState({
     subsidizedFedLoan: "",
@@ -40,10 +25,16 @@ const FederalLoans = ({ setFedForm }) => {
       [event.target.name]: event.target.value
     });
   };
+  //función para recibir los campos vacios y activar el error
+  useEffect(() => {
+    if (emptyFields.length !== 0) {
+      setInvalid(true);
+    }
+  }, [emptyFields]);
   //sumo el total de los inputs
   useEffect(() => {
     const sumFedLoans =
-      parseInt(subsidizedFedLoan) + parseInt(unsubsidizedFedLoan);
+      parseInt(subsidizedFedLoan || 0) + parseInt(unsubsidizedFedLoan || 0);
     const displayFedLoans = () => {
       if (sumFedLoans >= 0) {
         setTotalFedLoans(sumFedLoans);
@@ -73,7 +64,8 @@ const FederalLoans = ({ setFedForm }) => {
             display="inline"
             size="small"
             name="subsidizedFedLoan"
-            value={subsidizedFedLoan}
+            error={subsidizedFedLoan === "" ? invalid : null}
+            // value={subsidizedFedLoan}
             onChange={handleChange}
           />
         </div>
@@ -91,15 +83,16 @@ const FederalLoans = ({ setFedForm }) => {
             display="inline"
             size="small"
             name="unsubsidizedFedLoan"
-            value={unsubsidizedFedLoan}
+            error={unsubsidizedFedLoan === "" ? invalid : null}
+            // value={unsubsidizedFedLoan}
             onChange={handleChange}
           />
         </div>
       </Grid>
       <div className="title flex">
-        <h2 className="subtitle">Total Federal Loans:  </h2>
+        <h2 className="subtitle">Total Federal Loans: </h2>
         {/* condicional para mostrar el resultado de la suma de los inputs */}
-       <h2>{totalFederalLoans === 0 ? "$00,000" : `$${totalFederalLoans}`}</h2> 
+        <h2>{totalFederalLoans === 0 ? "$00,000" : `$${totalFederalLoans}`}</h2>
       </div>
     </Grid>
   );

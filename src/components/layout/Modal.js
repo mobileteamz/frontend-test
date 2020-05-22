@@ -4,7 +4,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Modal, Backdrop, Container } from "@material-ui/core";
 import Fade from "@material-ui/core/Fade";
-import Form from "./Form/Form";
+import Form from "../Form/Form";
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -23,7 +23,8 @@ const useStyles = makeStyles(theme => ({
     height: "80%",
     display: "block",
     width: "80%",
-    maxWidth: "900px"
+    maxWidth: "900px",
+    overflowX: "hidden",
   }
   
 }));

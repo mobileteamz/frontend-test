@@ -6,8 +6,10 @@ import {
   TOTAL_COST,
   TOTAL_GRANTS_SCHOLARSHIPS,
   TOTAL_FED_LOANS,
-  SEND_FORM
-} from "../../types";
+  SEND_FORM,
+  WORK_STUDY,
+  ATTENDANCE_STATE
+} from "./types";
 
 // Store que contiene context, state y reducer
 // de esta manera el state se puede propagar por el arbol de componentes
@@ -29,9 +31,11 @@ const FormState = props => {
       { school: "Yale", id: 9 },
       { school: "Yale", id: 10 }
     ],
-    totalGrantsScholarships: "",
-    totalFederalLoans: "",
-    totalCost: "",
+    attendance: 0,
+    totalGrantsScholarships: 0,
+    totalFederalLoans: 0,
+    workStudy: 0,
+    totalCost: 0,
     formError: false
   };
   //llamo al reducer
@@ -42,7 +46,7 @@ const FormState = props => {
       type: FORM_VALIDATION
     });
   };
-  //recibo la suda de federal loans, simulando que otra parte de la app lo necesite
+  //recibo la suma de federal loans, simulando que otra parte de la app lo necesite
   const setTotalFedLoans = sumTotalFedLoans => {
     dispatch({
       type: TOTAL_FED_LOANS,
@@ -56,6 +60,20 @@ const FormState = props => {
       payload: sumTotalGrantsScholarships
     });
   };
+  //busco workstudy
+  const setWorkStudyContext = workStudy => {
+    dispatch({
+      type: WORK_STUDY,
+      payload: workStudy
+    });
+  };
+
+  const setAttendance = attendance => {
+    dispatch({
+      type: ATTENDANCE_STATE,
+      payload: attendance
+    });
+  };
 
   const setTotalCost = () => {
     dispatch({
@@ -65,8 +83,8 @@ const FormState = props => {
   const sendForm = () => {
     dispatch({
       type: SEND_FORM
-    })
-  }
+    });
+  };
 
   return (
     //declaro el provider que comparte los state y funciones, este va en App.js
@@ -76,12 +94,17 @@ const FormState = props => {
         schools: state.schools,
         totalFederalLoans: state.totalFederalLoans,
         totalGrantsScholarships: state.totalGrantsScholarships,
+        workStudy: state.workStudy,
+        attendance: state.attendance,
         totalCost: state.totalCost,
         setTotalFedLoans,
         setTotalGrantsScholarships,
+        setWorkStudyContext,
+        setAttendance,
         handleError,
         setTotalCost,
-        sendForm
+        sendForm,
+       
       }}
     >
       {props.children}

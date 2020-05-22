@@ -1,27 +1,17 @@
 import React, { useState, useContext, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Grid } from "@material-ui/core/";
-//estilo de los componenetes de material ui
-const useStyles = makeStyles(theme => ({
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: "25ch",
-    [`& fieldset`]: {
-      borderRadius: 0
-    }
-  },
-  selectInput: {
-    width: "200px",
-    [`& fieldset`]: {
-      borderRadius: 0
-    }
-  }
-}));
+import FormContext from "./context/FormContext";
+import useStyles from "../layout/myTheme";
 
-const School = ({ setSchoolForm }) => {
+const School = ({ setSchoolForm, emptyFields }) => {
   //llamo a los estilos
   const classes = useStyles();
+  //llamo al context
+  const formContext = useContext(FormContext);
+  //destructuring context
+  const { setAttendance } = formContext;
+  //state de error
+  const [invalid, setInvalid] = useState(false);
   //declaro el state
   const [school, setSchool] = useState({
     selectedSchool: "",
@@ -36,12 +26,21 @@ const School = ({ setSchoolForm }) => {
       ...school,
       [event.target.name]: event.target.value
     });
+    console.log(emptyFields.includes("selectedSchool"));
   };
+  //función para recibir los campos vacios y activar el error
+  useEffect(() => {
+    if (emptyFields.length !== 0) {
+      setInvalid(true);
+    }
+  }, [emptyFields]);
   //ante cambios mando al from padre los valores
   useEffect(() => {
     const sendSchoolToForm = () => {
       setSchoolForm(school);
+      setAttendance(parseInt(attendance));
     };
+
     sendSchoolToForm();
   }, [school]);
   return (
@@ -58,6 +57,7 @@ const School = ({ setSchoolForm }) => {
             label="Select"
             variant="outlined"
             size="small"
+            error={selectedSchool === "" ? invalid : null}//condicion que valida
             className={classes.selectInput}
             onChange={handleChange}
           >
@@ -85,6 +85,7 @@ const School = ({ setSchoolForm }) => {
             label="Select"
             variant="outlined"
             size="small"
+            error={admission === "" ? invalid : null}
             className={classes.selectInput}
             onChange={handleChange}
           >
@@ -105,7 +106,7 @@ const School = ({ setSchoolForm }) => {
           label="$"
           variant="outlined"
           name="attendance"
-          value={attendance}
+          error={attendance === "" ? invalid : null}
           onChange={handleChange}
         />
       </Grid>

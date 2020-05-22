@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
-import FormState from "./components/context/FormState";
-import Modal from "./components/Modal";
+import FormState from "./components/Form/context/FormState";
+import Modal from "./components/layout/Modal";
 import Form from "./components/Form/Form";
 
 function App() {

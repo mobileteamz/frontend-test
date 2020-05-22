@@ -3,6 +3,7 @@
 body {
   color: #2f303a8f;
   font-family: "Assistant", sans-serif;
+  
 }
 .parrafo {
   margin: 0;
@@ -77,7 +78,9 @@ hr {
   background-color: #727171f1;
   color: #f7f7f7;
 }
-
+.inputError{
+  background-color: #d95b5b;
+}
 .error {
   color: #d95b5b;
   font-size: 26px;
